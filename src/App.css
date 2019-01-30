@@ -1,0 +1,11 @@
+.App {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+  .EventHolder {
+    background: #8f8ff1;
+    z-index : 2;
+    position: absolute;
+  }
