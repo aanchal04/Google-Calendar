@@ -128,27 +128,28 @@ class EventBox extends Component {
       let gridstartCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#VerticalRow_' + starthour)[0];
       let gridendCell = document.getElementById('horizontalRow_' + endkey).querySelectorAll('#VerticalRow_' + endhour)[0];
       let eventid = key + "_" + starthour + "_" + endkey + "_" + endhour
-      this.props.Events[eventid] =  EventDetails;
       
+      if(this.props.isEdit == 1)
+      {
+        this.props.deleteEvent(this.props.keyid)
+      }
+ 
       let width = gridstartCell.offsetWidth;
       let height = gridstartCell.offsetHeight;
-      
       if((endhour - starthour ) > 1 )
       {
           height = height +  gridendCell.offsetHeight;
       }
-      
       if(endkey != key)
       {
           width = width +  gridendCell.offsetWidth;
       }
-      
       ReactDOM.render(<div className = "EventHolder" onClick = {this.eventClick} id = {eventid} > {Title} </div>, gridstartCell);
-       
+ 
       let eventCell = gridstartCell.querySelectorAll(".EventHolder")[0];
       eventCell.style.height = height + "px";
-      eventCell.style.width = width + "px";  
-      
+      eventCell.style.width = width + "px";
+      this.props.editEvent(eventid ,EventDetails)
       ReactDOM.unmountComponentAtNode(Container);
       Container.style.display = "none";
   }
@@ -159,13 +160,38 @@ class EventBox extends Component {
       Container.style.display = "none";
   }
   
+  componentDidMount()
+  {
+      if(this.props.isEdit == 1)
+          {
+              let EventData = this.props.Events[this.props.keyid];
+                  this.setState({
+                    EndTime: EventData.endTime
+                  });
+                   
+                 this.setState({
+                    startTime: EventData.startTime
+                  });
+                
+                this.setState({
+                    startDate: EventData.startDate
+                });
+                this.setState({
+                    endDate: EventData.endDate
+                });
+                 
+                document.getElementById("EventInput").value = EventData.Title
+          }
+      
+  }
+  
   eventClick = (e) => {
       let Key = e.target.id;
       let EventData = this.props.Events[Key];
       let eventStartDate = EventData.startDate;
       let container = document.getElementById('EventGridBox');  
       container.style.display = "block";
-      ReactDOM.render(<EventViewBox keyid = {Key} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {EventData}/>, container);
+      ReactDOM.render(<EventViewBox keyid = {Key} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
   }
     
   render() {
@@ -176,7 +202,7 @@ class EventBox extends Component {
                     <div className = {classes.CloseAction} onClick = {this.closeEvent}> X </div>
                 </div>
                <div className = {classes.OuterEventTextConatiner}>
-                    <input type= "text" ref={input => this._newText = input} className = {classes.EventInputConatiner}/>
+                    <input type= "text" ref={input => this._newText = input} id = "EventInput" className = {classes.EventInputConatiner}/>
                </div>
                <div className = {classes.OuterEventDateTimeConatiner}>
                           <DatePicker selected={this.state.startDate} onChange={this.handlestartdateChange} />

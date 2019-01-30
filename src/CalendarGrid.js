@@ -49,7 +49,7 @@ class CalendarGrid extends Component {
     } 
     
     editEventState = (key , EventData) =>{
-    
+       this.state.Events[key] = EventData;
     } 
     
     
