@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import 'font-awesome/css/font-awesome.min.css';
 import DatePicker from "react-datepicker";
+import moment from 'moment'
+import 'react-datepicker/dist/react-datepicker.css';
 
 const styles = theme => ({
   mainheaderContainer : {
@@ -15,7 +17,7 @@ const styles = theme => ({
       width: "20%",
       height: "100%" ,
       float : "left" ,
-      marginTop : "1%"
+      lineHeight : "4",
   },
   calendarText : {
       display: "inline-block",
@@ -23,7 +25,7 @@ const styles = theme => ({
       height: "80%",
       textAlign : "left",
       fontFamily : "sans-serif",
-      fontSize : "24px",
+      fontSize : "21px",
       lineHeight : "1.5",
       color : "#7d7373"
   },
@@ -33,6 +35,22 @@ const styles = theme => ({
       height: "80%",
       float : "left",
       textAlign : "right"
+  },
+  calendarWeek : {
+      display: "inline-block",
+      width: "30%",
+      height: "80%",
+      float :"left",
+      marginLeft : "20%",
+      lineHeight : "4",
+  },
+  weekDatePicker : {
+      textAlign : "left",
+      fontFamily : "sans-serif",
+      fontSize : "26px",
+      lineHeight : "1.5",
+      color : "#615454",
+      cursor : "pointer"
   }
 });
 
@@ -45,6 +63,9 @@ class CalendarHeader extends Component {
     }
     
     handleweekdateChange = (date) => {
+        this.setState({
+            changedweekDate: date
+        });
         this.changeWeekDate(date)
     }
     
@@ -52,6 +73,10 @@ class CalendarHeader extends Component {
         this.props.onchange(date);
     }
     
+    formatMonth = (locale, date) => {
+        moment(date).format("MMMM YYYY")
+    }
+        
     render() {
     const { classes } = this.props;
     return (
@@ -62,8 +87,8 @@ class CalendarHeader extends Component {
                 </div>
                 <span className = {classes.calendarText}> Calendar </span>
             </div> 
-            <div>
-                <DatePicker selected={this.state.changedweekDate} onChange={this.handleweekdateChange} />
+            <div className = {classes.calendarWeek}>
+                <DatePicker className = {classes.weekDatePicker} dateFormat="MMMM YYYY" selected={this.state.changedweekDate} onChange={this.handleweekdateChange} />
             </div>
       </div>
     );

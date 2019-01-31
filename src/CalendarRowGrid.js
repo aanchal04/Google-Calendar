@@ -9,47 +9,56 @@ const styles = theme => ({
       width: "100%",
       height: "8%",
       border : "1px solid #e0dcdc",
-      float : "left"
+      float : "left",
   },
   rowContainer : {
       display: "inline-block",
       width: "100%",
       height: "100%",
-      float : "left"
+      float : "left",
   },
   MainDateContainer : {
       display: "inline-block",
       width: "100%",
-      height: "8%",
-      textAlign : "centre",
+      height: "10%",
+      textAlign : "center",
       fontFamily : "sans-serif",
-      fontSize : "18px",
       color : "#7d7373",
       float : "left"
   },
   DayContainer : {
       display: "inline-block",
       width: "100%",
-      height: "50%",
-      float : "left"
+      height: "40%",
+      float : "left",
+      fontSize : "16px",
+      lineHeight : "1.5"
   },
   DateContainer : {
       display: "inline-block",
       width: "100%",
       height: "50%",
-      float : "left"
+      float : "left",
+      fontSize : "22px",
   },
   rowgridtimecell : {
       display: "inline-block",
       width: "100%",
       height: "8%",
       float : "left",
-      lineHeight : "3.5"
+      lineHeight : "0.5",
+      border : "1px solid white",
+      textAlign : "center",
+      fontFamily : "sans-serif",
+      fontSize : "11px",
+      color : "#7d7373",
   },
   PlusIconContainer : {
       display: "inline-block",
       width: "100%",
-      height: "8%",
+      height: "10%",
+      cursor : "pointer",
+      lineHeight : "3.5",
       cursor : "pointer"
   },
   IconContainer : {

@@ -9,3 +9,24 @@
     z-index : 2;
     position: absolute;
   }
+
+.react-datepicker-wrapper  input 
+{
+    border: none;
+}
+
+.rc-time-picker input 
+{
+  border: none;  
+}
+
+.rc-time-picker 
+{
+    float: left;
+    border-radius: 0px;
+}
+
+.react-datepicker-wrapper 
+{
+    float: left;
+}

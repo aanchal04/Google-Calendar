@@ -78,7 +78,7 @@ class CalendarGrid extends Component {
         {
             let divid = "horizontalRow_" + moment(days[j]).format('DD');
             table.push(<div className = {classes.mainrowgridContainer} id = {divid} >
-                            <CalendarRowGrid events = {this.state.Events} horizontalLine = {i} verticallines= {this.state.verticalgridlines} currdate ={moment(days[j]).format('ddd')} currday = {moment(days[j]).format('DD')} />
+                            <CalendarRowGrid events = {this.state.Events} horizontalLine = {i} verticallines= {this.state.verticalgridlines} currdate ={moment(days[j]).format('DD')} currday = {moment(days[j]).format('ddd')} />
                         </div>);
             j = j + 1;
         }

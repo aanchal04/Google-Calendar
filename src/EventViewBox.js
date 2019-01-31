@@ -17,37 +17,41 @@ const styles = theme => ({
   },
   OuterEventAction : {
       display: "inline-block",
-      width: "100%",
-      height: "10%",
+      width: "95%",
+      height: "15%",
+      lineHeight : "1.5"
   },
   OuterEventTextConatiner : {
       display: "inline-block",
       width: "100%",
-      height: "30%",
+      height: "40%",
+      marginTop : "3%"
   },
   CloseAction : {
       display: "inline-block",
-      width: "10%",
+      width: "5%",
       height: "100%",
       float : "right",
-      cursor : "pointer"
+      cursor : "pointer",
+      fontFamily : "sans-serif",
+      fontSize : "16px",
   },
   DeleteAction : {
       display: "inline-block",
-      width: "10%",
+      width: "5%",
       height: "100%",
       float : "right",
       cursor : "pointer"
   },
   EditAction : {
       display: "inline-block",
-      width: "10%",
+      width: "5%",
       height: "100%",
       float : "right",
       cursor : "pointer"
   },
   EventInputConatiner : {
-      width: "85%",
+      width: "90%",
       height: "50%",  
       border : "none",
       background : "none",
@@ -56,10 +60,10 @@ const styles = theme => ({
       display: "inline-block",
       fontFamily : "sans-serif",
       textAlign : "left",
-      fontSize : "24px"
+      fontSize : "35px"
   },
   OuterEventDateTimeConatiner : {
-      width: "85%",
+      width: "90%",
       height: "40%",
       display: "inline-block",
       float : "left",
@@ -67,14 +71,14 @@ const styles = theme => ({
       marginTop : "5%",
   },
   EventInputDateConatiner : {
-      width: "85%",
+      width: "90%",
       height: "50%",  
       marginLeft : "5%",
       float : "left",
       display: "inline-block",
       fontFamily : "sans-serif",
       textAlign : "center",
-      fontSize : "16px",
+      fontSize : "15px",
       marginTop : "1%",
   }
 });

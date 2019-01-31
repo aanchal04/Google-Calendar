@@ -30,7 +30,9 @@ const styles = theme => ({
       width: "10%",
       height: "100%",
       float : "right",
-      cursor : "pointer"
+      cursor : "pointer",
+      fontFamily : "sans-serif",
+      fontSize : "18px",
   },
   EventInputConatiner : {
       width: "85%",
@@ -52,23 +54,59 @@ const styles = theme => ({
   },
   OuterEventSaveConatiner : {
       width: "100%",
-      height: "14%",
+      height: "12%",
       display: "inline-block",
       float : "left",
+      marginTop : "2%"
   },
   EventSaveConatiner : {
-      width: "20%",
+      width: "15%",
       height: "100%",
       display: "inline-block",
       float : "right",
       textAlign : "center",
       fontFamily : "sans-serif",
-      fontSize : "18px",
+      fontSize : "16px",
       color : "white",
-      background : "#6565af",
-      lineHeight : "1.5",
-      marginRight : "2%",
-      cursor : "pointer"
+      background : "#1a73e8",
+      lineHeight : "1.6",
+      marginRight : "4%",
+      cursor : "pointer",
+      borderRadius : "7px"
+  },
+  eventStartDate : {
+      padding: "0px",
+      float: "left",
+      height: "28px",
+      background: "white",
+      width : "90px",
+      color : "#666",
+      paddingLeft : "10%",
+      fontSize : "12px",
+      color : "#5d5353"
+  },
+  eventStartHour : {
+      padding: "0px",
+      float: "left",
+  },
+  OuterEventEndDateConatiner : {
+      width: "100%",
+      height: "50%",
+      display: "inline-block",
+      float : "left",
+  },
+  OuterEventStartDateConatiner : {
+      width: "100%",
+      height: "50%",
+      display: "inline-block",
+      float : "left",
+  },
+  spanStartTime : {
+      float : "left",
+      width : "25%",
+      fontFamily : "sans-serif",
+      fontSize : "16px",
+      lineHeight : "1.5"
   }
 });
 
@@ -80,7 +118,7 @@ class EventBox extends Component {
             startDate : new Date(),
             endDate :new Date(),
             startTime : moment().hour(0).minute(0),
-            EndTime : moment().hour(0).minute(0),            
+            EndTime : moment().hour(1).minute(0),            
             format : 'h:mm a',
         }
     }
@@ -205,10 +243,16 @@ class EventBox extends Component {
                     <input type= "text" ref={input => this._newText = input} id = "EventInput" className = {classes.EventInputConatiner}/>
                </div>
                <div className = {classes.OuterEventDateTimeConatiner}>
-                          <DatePicker selected={this.state.startDate} onChange={this.handlestartdateChange} />
-                          <TimePicker showSecond={false} onChange={this.onChangeStartTime} value={this.state.startTime} format={this.state.format} use12Hours inputReadOnly/>
-                          <DatePicker selected={this.state.endDate} onChange={this.handleenddateChange} />
-                          <TimePicker showSecond={false} onChange={this.onChangeEndTime} value={this.state.EndTime} format={this.state.format} use12Hours inputReadOnly/>
+                        <div className = {classes.OuterEventStartDateConatiner}>
+                              <span className = {classes.spanStartTime}> Start Time </span>
+                              <DatePicker className = {classes.eventStartDate} selected={this.state.startDate} onChange={this.handlestartdateChange} />
+                              <TimePicker className = {classes.eventStartHour} showSecond={false} onChange={this.onChangeStartTime} value={this.state.startTime} format={this.state.format} use12Hours inputReadOnly/>
+                        </div>
+                        <div className = {classes.OuterEventEndDateConatiner}>
+                              <span className = {classes.spanStartTime}> End Time </span>
+                              <DatePicker className = {classes.eventStartDate} selected={this.state.endDate} onChange={this.handleenddateChange} />
+                              <TimePicker className = {classes.eventStartHour} showSecond={false} onChange={this.onChangeEndTime} value={this.state.EndTime} format={this.state.format} use12Hours inputReadOnly/>
+                        </div>
                </div>
                <div className = {classes.OuterEventSaveConatiner}>
                     <div className = {classes.EventSaveConatiner} onClick = {this.saveEvent}> Save </div>
