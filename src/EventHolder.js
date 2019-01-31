@@ -29,7 +29,7 @@ class EventHolder extends Component {
           let eventStartDate = EventData.startDate;
           let container = document.getElementById('EventGridBox');  
           container.style.display = "block";
-          ReactDOM.render(<EventViewBox keyid = {Key} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
+          ReactDOM.render(<EventViewBox weekdateChange = {this.props.weekdateChange} keyid = {Key} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
     }
                           
     render() {
@@ -39,7 +39,7 @@ class EventHolder extends Component {
         width : this.props.width
     };
     return (
-      <div className = "EventHolder"  style={divStyle} onClick = {this.eventClick} id = {this.props.eventid} > 
+      <div className = "EventHolder"  style={divStyle} onClick = {this.eventClick} id = {this.props.eventid} title = {this.props.Title}> 
         {this.props.Title} 
       </div>
     );

@@ -45,7 +45,7 @@ const styles = theme => ({
       background : "none",
       marginLeft : "5%",
       float : "left",
-      display: "inline-block",
+      display: "inline-block"
   },
   OuterEventDateTimeConatiner : {
       width: "85%",
@@ -119,8 +119,8 @@ class EventBox extends Component {
   constructor(props) {
     super(props);     
         this.state = {
-            startDate : new Date(),
-            endDate :new Date(),
+            startDate : this.props.selectedDate,
+            endDate :this.props.selectedDate,
             startTime : moment().hour(0).minute(0),
             EndTime : moment().hour(1).minute(0),            
             format : 'h:mm a',
@@ -133,12 +133,28 @@ class EventBox extends Component {
       endDate: date
     });
     this.props.weekdateChange(date) 
+      if(this.state.startDate > date)
+      {
+        document.getElementById("savecontainer").style.background = "grey"
+      }
+      else
+      {
+         document.getElementById("savecontainer").style.background = "#1a73e8" 
+      }
   }
   
   handleenddateChange = (date) => {
     this.setState({
       endDate: date
     });
+      if(this.state.startDate > date)
+      {
+        document.getElementById("savecontainer").style.background = "grey"
+      }
+      else
+      {
+         document.getElementById("savecontainer").style.background = "#1a73e8" 
+      }
   }
   
   onChangeStartTime = (time) => {
@@ -154,64 +170,72 @@ class EventBox extends Component {
   }
   
   saveEvent = () => {
-      const { classes } = this.props;
-      let Title = this._newText.value;
-      if(Title === "")
-      {
-          Title = "No Title"
-      }
-      let EventDetails = {
-          Title: Title,
-          startDate : this.state.startDate,
-          startTime : this.state.startTime,
-          endDate : this.state.endDate,
-          endTime : this.state.EndTime
-      }
-      let key = moment(this.state.startDate).format("DD")
-      let Container = document.getElementById('EventGridBox')
-      let starthour = this.state.startTime.format("H") 
-      let endhour = this.state.EndTime.format("H") 
       
-      let endkey = moment(this.state.endDate).format("DD")
-      let gridstartCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#VerticalRow_' + starthour)[0];
-      let gridendCell = document.getElementById('horizontalRow_' + endkey).querySelectorAll('#VerticalRow_' + endhour)[0];
-      let eventid = key + "_" + starthour + "_" + endkey + "_" + endhour
-      
-      if(this.props.isEdit == 1)
+      if(this.state.startDate > this.state.endDate)
       {
-        this.props.deleteEvent(this.props.keyid)
-      }
-      let diff = 1;
-      let start = moment(EventDetails.startDate, "DD.MM.YYYY");
-      let end = moment(EventDetails.endDate, "DD.MM.YYYY");
-      let result = end.diff(start, 'days');
-      if(result < 0)
-      {
-          diff = result;
+//do nothing
       }
       else
       {
-          diff = result;
+          const { classes } = this.props;
+          let Title = this._newText.value;
+          if(Title === "")
+          {
+              Title = "No Title"
+          }
+          let EventDetails = {
+              Title: Title,
+              startDate : this.state.startDate,
+              startTime : this.state.startTime,
+              endDate : this.state.endDate,
+              endTime : this.state.EndTime
+          }
+          let key = moment(this.state.startDate).format("DD")
+          let Container = document.getElementById('EventGridBox')
+          let starthour = this.state.startTime.format("H") 
+          let endhour = this.state.EndTime.format("H") 
+          let endminute = this.state.EndTime.format("mm") 
+          
+          let endkey = moment(this.state.endDate).format("DD")
+          let gridstartCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#VerticalRow_' + starthour)[0];
+          let gridendCell = document.getElementById('horizontalRow_' + endkey).querySelectorAll('#VerticalRow_' + endhour)[0];
+          let eventid = key + "_" + starthour + "_" + endkey + "_" + endhour
+
+          if(this.props.isEdit == 1)
+          {
+            this.props.deleteEvent(this.props.keyid)
+          }
+          let start = moment(EventDetails.startDate, "DD.MM.YYYY");
+          let end = moment(EventDetails.endDate, "DD.MM.YYYY");
+          let result = end.diff(start, 'days');
+
+          let width = gridstartCell.offsetWidth;
+          let height = gridstartCell.offsetHeight;
+          if((endhour - starthour ) > 1 )
+          {
+              height = height +  (endhour - starthour - 1) * gridendCell.offsetHeight;
+          }
+          if(endminute < 30)
+          {
+              height = height + gridendCell.offsetHeight/2;
+          }
+          else
+          {
+              height = height + gridendCell.offsetHeight;
+          }
+
+          if(endkey !== key)
+          {
+             width = width +  (result) * gridendCell.offsetWidth; 
+          }
+          let divheight = height + "px";
+          let divwidth = width + "px";
+          ReactDOM.render(<EventHolder weekdateChange = {this.props.weekdateChange} eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events} height = {divheight} width = {divwidth}/>, gridstartCell);
+          gridstartCell.classList.add("eventHolderGridContainer");
+          this.props.editEvent(eventid ,EventDetails)
+          ReactDOM.unmountComponentAtNode(Container);
+          Container.style.display = "none";
       }
-      
-      let width = gridstartCell.offsetWidth;
-      let height = gridstartCell.offsetHeight;
-      if((endhour - starthour ) > 1 )
-      {
-          height = height +  (endhour - starthour - 1) * gridendCell.offsetHeight;
-      }
-      
-      if(endkey !== key)
-      {
-         width = width +  (diff + 1) * gridendCell.offsetWidth; 
-      }
-      let divheight = height + "px";
-      let divwidth = width + "px";
-      ReactDOM.render(<EventHolder eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events} height = {divheight} width = {divwidth}/>, gridstartCell);
-      gridstartCell.classList.add("eventHolderGridContainer");
-      this.props.editEvent(eventid ,EventDetails)
-      ReactDOM.unmountComponentAtNode(Container);
-      Container.style.display = "none";
   }
   
   closeEvent = () => {
@@ -270,7 +294,7 @@ class EventBox extends Component {
                         </div>
                </div>
                <div className = {classes.OuterEventSaveConatiner}>
-                    <div className = {classes.EventSaveConatiner} onClick = {this.saveEvent}> Save </div>
+                    <div className = {classes.EventSaveConatiner} id = "savecontainer" onClick = {this.saveEvent}> Save </div>
                </div>
         </div>
     );

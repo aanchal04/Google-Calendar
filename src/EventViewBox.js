@@ -61,7 +61,10 @@ const styles = theme => ({
       display: "inline-block",
       fontFamily : "sans-serif",
       textAlign : "left",
-      fontSize : "35px"
+      fontSize : "35px",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow : "ellipsis"
   },
   OuterEventDateTimeConatiner : {
       width: "90%",
@@ -111,14 +114,13 @@ class EventViewBox extends Component {
   eventEdit = () => {
       let container = document.getElementById('EventGridBox'); 
       ReactDOM.unmountComponentAtNode(container);
-      ReactDOM.render(<EventBox isEdit = {1} keyid = {this.props.keyid} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
+      ReactDOM.render(<EventBox weekdateChange = {this.props.weekdateChange} isEdit = {1} keyid = {this.props.keyid} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
   }
 
   render() {
     const { classes } = this.props;
     let EventData = this.props.Events[this.props.keyid]
-    let Date = moment(EventData.endDate).format("DD MMMM YYYY") + "," + EventData.endTime.format("hh:mm A") +
-               " - " + moment(EventData.startDate).format("DD MMMM YYYY") + "," + EventData.startTime.format("hh:mm A") 
+    let Date = moment(EventData.startDate).format("DD MMMM YYYY") + "," + EventData.startTime.format("hh:mm A") + " - " + moment(EventData.endDate).format("DD MMMM YYYY") + "," + EventData.endTime.format("hh:mm A")
     return (
         <div className = {classes.OuterEventConatiner} >
                <div className = {classes.OuterEventAction}>
@@ -133,7 +135,7 @@ class EventViewBox extends Component {
                     </div>
                 </div>
                <div className = {classes.OuterEventTextConatiner}>
-                    <div className = {classes.EventInputConatiner}> {EventData.Title} </div>
+                    <div className = {classes.EventInputConatiner} title = {EventData.Title}> {EventData.Title} </div>
                     <div className = {classes.EventInputDateConatiner}> {Date} </div>
                </div>
                <div className = {classes.OuterEventDateTimeConatiner}>

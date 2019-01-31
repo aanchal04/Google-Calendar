@@ -77,7 +77,7 @@ class CalendarRowGrid extends Component {
   
   generateEventBox = () => {
       let container = document.getElementById('EventGridBox');      
-      ReactDOM.render(<EventBox weekdateChange = {this.props.weekdateChange} isEdit = {0} keyid = {0} editEvent = {this.props.eventupdate} deleteEvent = {this.props.eventdelete} Events = {this.props.events}/>, container);
+      ReactDOM.render(<EventBox selectedDate = {this.props.selectedDate} weekdateChange = {this.props.weekdateChange} isEdit = {0} keyid = {0} editEvent = {this.props.eventupdate} deleteEvent = {this.props.eventdelete} Events = {this.props.events}/>, container);
   }
 
   generatetimerow = () =>{
