@@ -41,12 +41,12 @@ class CalendarGrid extends Component {
       let EventData = this.state.Events[key];
       let startdate = moment(EventData.startDate).format("DD")
       let starthour = EventData.startTime.format("H")
-      let gridstartCell = document.getElementById('horizontalRow_' + startdate).querySelectorAll('#VerticalRow_' + starthour)[0];
-      ReactDOM.unmountComponentAtNode(gridstartCell);
-      delete this.state.Events[key]
       let Container = document.getElementById('EventGridBox')
       ReactDOM.unmountComponentAtNode(Container);
       Container.style.display = "none";
+      delete this.state.Events[key]
+      let gridstart = document.getElementById('horizontalRow_' + startdate).querySelectorAll('#VerticalRow_' + starthour)[0];
+      ReactDOM.unmountComponentAtNode(gridstart);
     } 
     
     editEventState = (key , EventData) =>{
@@ -104,6 +104,8 @@ class CalendarGrid extends Component {
                 let starthour = EventDetails.startTime.format("H") 
                 let endhour = EventDetails.endTime.format("H")       
                 let endkey = moment(EventDetails.endDate).format("DD")
+                let smonth = moment(EventDetails.startDate).format("MM")
+                let emonth = moment(EventDetails.endDate).format("MM")
                 let gridstartCell = document.getElementById('horizontalRow_' + sdate).querySelectorAll('#VerticalRow_' + starthour)[0];
                 let gridendCell = document.getElementById('horizontalRow_' + endkey).querySelectorAll('#VerticalRow_' + endhour)[0];
                 let eventid = sdate + "_" + starthour + "_" + endkey + "_" + endhour 
@@ -120,18 +122,21 @@ class CalendarGrid extends Component {
                   diff = result;
                 } 
                 
-               let width = gridstartCell.offsetWidth;
-               let height = gridstartCell.offsetHeight;
+               let width = gridstartCell.clientWidth;
+               let height = gridstartCell.clientHeight;
                if((endhour - starthour ) > 1 )
                {
-                  height = height +  (endhour - starthour - 1) * gridendCell.offsetHeight;
+                  height = height +  (endhour - starthour - 1) * gridendCell.clientHeight;
                }
 
                if(endkey !== sdate)
                {
-                 width = width +  (diff) * gridendCell.offsetWidth; 
+                 width = width +  (diff) * gridendCell.clientWidth; 
                }
-                
+               if(smonth !== emonth)
+                {
+                    width = width +  gridendCell.clientWidth 
+                }
                 let divheight = height + "px";
                 let divwidth = width + "px";
                 ReactDOM.render(<EventHolder eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.editEventState} deleteEvent = {this.deleteEventState} Events = {this.state.Events} height = {divheight} width = {divwidth}/>, gridstartCell);        
