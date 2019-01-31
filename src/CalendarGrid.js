@@ -119,7 +119,7 @@ class CalendarGrid extends Component {
                 {
                   diff = result;
                 } 
-
+                
                let width = gridstartCell.offsetWidth;
                let height = gridstartCell.offsetHeight;
                if((endhour - starthour ) > 1 )
@@ -129,7 +129,7 @@ class CalendarGrid extends Component {
 
                if(endkey !== sdate)
                {
-                 width = width +  (diff + 1) * gridendCell.offsetWidth; 
+                 width = width +  (diff) * gridendCell.offsetWidth; 
                }
                 
                 let divheight = height + "px";

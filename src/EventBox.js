@@ -131,16 +131,9 @@ class EventBox extends Component {
     this.setState({
       startDate: date,
       endDate: date
-    });
-    this.props.weekdateChange(date) 
-      if(this.state.startDate > date)
-      {
-        document.getElementById("savecontainer").style.background = "grey"
-      }
-      else
-      {
-         document.getElementById("savecontainer").style.background = "#1a73e8" 
-      }
+    }); 
+    this.props.weekdateChange(date)
+    document.getElementById("savecontainer").style.background = "#1a73e8" 
   }
   
   handleenddateChange = (date) => {
@@ -215,15 +208,18 @@ class EventBox extends Component {
           {
               height = height +  (endhour - starthour - 1) * gridendCell.offsetHeight;
           }
-          if(endminute < 30)
+          if(endminute < 30 && endminute > 0)
           {
               height = height + gridendCell.offsetHeight/2;
           }
           else
           {
-              height = height + gridendCell.offsetHeight;
+              if(endminute > 0)
+              {
+                height = height + gridendCell.offsetHeight;
+              }
           }
-
+          result = parseInt(result)
           if(endkey !== key)
           {
              width = width +  (result) * gridendCell.offsetWidth; 
