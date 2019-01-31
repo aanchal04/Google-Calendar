@@ -1,0 +1,33 @@
+#EventGridBox .react-datepicker-wrapper  input 
+{
+    border: none;
+    width: 100px;
+    height: 28px;
+    float: left;
+}
+
+#EventGridBox .react-datepicker-wrapper 
+{
+    float: left;
+}
+
+.rc-time-picker input 
+{
+  border: none;  
+}
+
+.rc-time-picker 
+{
+    float: left;
+    border-radius: 0px;
+}
+
+  .EventHolder {
+    background: #8f8ff1;
+    z-index : 2;
+    position: relative;
+    font-size: 16px;
+    font-family: sans-serif;
+    cursor: pointer;
+    color: white;
+  }

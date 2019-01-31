@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CalendarRowGrid from './CalendarRowGrid';
 import moment from 'moment'
 import ReactDOM from 'react-dom';
+import EventHolder from './EventHolder'
 
 const styles = theme => ({
   mainrowgridContainer : {
@@ -71,20 +72,118 @@ class CalendarGrid extends Component {
     let j = 0
     let divtimeid = "horizontalTimeRow" + j;
     table.push(<div className = {classes.mainrowtimegridContainer} id = {divtimeid} >
-                        <CalendarRowGrid events = {this.state.Events} eventupdate = {this.editEventState} eventdelete = {this.deleteEventState} horizontalLine = {j-1} verticallines= {this.state.verticalgridlines} currdate = {moment(days[j]).format('ddd')} currday = {moment(days[j]).format('DD')}/>
+                        <CalendarRowGrid weekdateChange = {this.props.weekdateChange} selectedDate = {this.props.weekDate} events = {this.state.Events} eventupdate = {this.editEventState} eventdelete = {this.deleteEventState} horizontalLine = {j-1} verticallines= {this.state.verticalgridlines} currdate = {moment(days[j]).format('ddd')} currday = {moment(days[j]).format('DD')}/>
                 </div>);
         
         for (let i = 0; i < this.state.horizontalgridlines; i++) 
         {
             let divid = "horizontalRow_" + moment(days[j]).format('DD');
             table.push(<div className = {classes.mainrowgridContainer} id = {divid} >
-                            <CalendarRowGrid events = {this.state.Events} horizontalLine = {i} verticallines= {this.state.verticalgridlines} currdate ={moment(days[j]).format('DD')} currday = {moment(days[j]).format('ddd')} />
+                            <CalendarRowGrid weekdateChange = {this.weekdateChange} selectedDate = {this.props.weekDate} events = {this.state.Events} eventupdate = {this.editEventState} eventdelete = {this.deleteEventState} horizontalLine = {i} verticallines= {this.state.verticalgridlines} currdate ={moment(days[j]).format('DD')} currday = {moment(days[j]).format('ddd')} />
                         </div>);
             j = j + 1;
         }
     return table;
         
     }
+    
+    editEventComponents = (startOfWeek , endOfWeek) => 
+    {
+        let gridContainerelements = document.getElementsByClassName('eventHolderGridContainer');
+        for(let i = 0 ; i < gridContainerelements.length ; i++)
+        {
+            ReactDOM.unmountComponentAtNode(gridContainerelements[i])        
+        }
+        for(let key in this.state.Events)
+        {
+            let EventDetails = this.state.Events[key];
+            if(EventDetails.startDate >= startOfWeek._d && EventDetails.startDate <= endOfWeek._d )
+            {
+                let sdate = moment(EventDetails.startDate).format("DD")
+                let Container = document.getElementById('EventGridBox')
+                let starthour = EventDetails.startTime.format("H") 
+                let endhour = EventDetails.endTime.format("H")       
+                let endkey = moment(EventDetails.endDate).format("DD")
+                let gridstartCell = document.getElementById('horizontalRow_' + sdate).querySelectorAll('#VerticalRow_' + starthour)[0];
+                let gridendCell = document.getElementById('horizontalRow_' + endkey).querySelectorAll('#VerticalRow_' + endhour)[0];
+                let eventid = sdate + "_" + starthour + "_" + endkey + "_" + endhour 
+                let diff = 1;
+                let start = moment(EventDetails.startDate, "DD.MM.YYYY");
+                let end = moment(EventDetails.endDate, "DD.MM.YYYY");
+                let result = end.diff(start, 'days');
+                if(result < 0)
+                {
+                    diff = result;
+                }
+                else
+                {
+                  diff = result;
+                } 
+
+               let width = gridstartCell.offsetWidth;
+               let height = gridstartCell.offsetHeight;
+               if((endhour - starthour ) > 1 )
+               {
+                  height = height +  (endhour - starthour - 1) * gridendCell.offsetHeight;
+               }
+
+               if(endkey !== sdate)
+               {
+                 width = width +  (diff + 1) * gridendCell.offsetWidth; 
+               }
+                
+                let divheight = height + "px";
+                let divwidth = width + "px";
+                ReactDOM.render(<EventHolder eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.editEventState} deleteEvent = {this.deleteEventState} Events = {this.state.Events} height = {divheight} width = {divwidth}/>, gridstartCell);        
+                 
+            }
+        }
+    }
+                                    
+    componentWillUpdate()
+    {            
+        let currentDate = new Date();
+        let key = moment(currentDate).format("DD")
+        let container = document.getElementById('horizontalRow_' + key);
+            if(container !== null)
+            {
+                let griddateCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#gridheaderDateContainer')[0]; 
+                let griddayCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#gridheaderDayContainer')[0]; 
+                griddateCell.classList.remove("currentDateCSS");
+                griddayCell.style.color = "#7d7373"
+            }
+    }  
+    
+    componentDidUpdate()
+    {
+        let currentDate = new Date();
+        let key = moment(currentDate).format("DD")
+        let startOfWeek = moment(this.props.weekDate).startOf('isoWeek');
+        let endOfWeek = moment(this.props.weekDate).endOf('isoWeek');
+        let container = document.getElementById('horizontalRow_' + key);
+        if(!(startOfWeek._d >= currentDate || endOfWeek._d <= currentDate))
+        {
+            if(container !== null)
+            {
+                let griddateCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#gridheaderDateContainer')[0]; 
+                let griddayCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#gridheaderDayContainer')[0]; 
+                griddateCell.classList.add("currentDateCSS");
+                griddayCell.style.color = "#7d7373"
+            }
+        }
+        
+        this.editEventComponents(startOfWeek , endOfWeek)
+    }
+    
+    componentDidMount()
+   {
+        let currentDate = new Date();
+        let key = moment(currentDate).format("DD")
+        let griddateCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#gridheaderDateContainer')[0]; 
+        let griddayCell = document.getElementById('horizontalRow_' + key).querySelectorAll('#gridheaderDayContainer')[0]; 
+        griddateCell.classList.add("currentDateCSS");
+        griddayCell.style.color = "#5cb3e6"
+   }
     
     render() {
     const { classes } = this.props;

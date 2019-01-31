@@ -5,14 +5,26 @@
 }
 
   .EventHolder {
-    background: #8f8ff1;
+    background: #5cb3e6;
     z-index : 2;
-    position: absolute;
+    position: relative;
+    font-size: 16px;
+    font-family: sans-serif;
+    cursor: pointer;
+    color: white;
   }
 
-.react-datepicker-wrapper  input 
+#headerCalendarWeek .react-datepicker-wrapper  input 
 {
     border: none;
+    width: 100%;
+    height: 91%;
+    float: left;
+    font-size: 18px;
+    font-family: sans-serif;
+    text-align: center;
+    color: white;
+    background: #5cb3e6;
 }
 
 .rc-time-picker input 
@@ -26,7 +38,52 @@
     border-radius: 0px;
 }
 
-.react-datepicker-wrapper 
+#headerCalendarWeek .react-datepicker-wrapper 
 {
     float: left;
+    width: 40%;
+    height: 60%;
+    /* display: inline-block; */
+    border: 1px solid #33b3ff;
+    margin-top: 2.5%;
+    line-height: 0;
+    font-size: 16px;
+    padding-top: 1%;
+    border-radius: 8px;
+    background: #5cb3e6;
+}
+
+.react-datepicker__input-container
+{
+    width: 100%;
+    height: 90%;
+    float: left;
+}
+
+#EventGridBox .react-datepicker-wrapper  input 
+{
+    border: none;
+    width: 100%;
+    height: 91%;
+    float: left;
+}
+
+#EventGridBox .react-datepicker-wrapper 
+{
+    float: left;
+}
+
+.currentDateCSS {
+    background: #5cb3e6;
+    color: white;
+    border-radius: 45px;
+    width: 22% !important;
+    height: 45% !important;
+    text-align: center;
+    margin-left: 41%;
+}
+
+.react-datepicker-popper
+{
+    z-index: 4;
 }

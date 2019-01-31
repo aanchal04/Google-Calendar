@@ -4,6 +4,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import DatePicker from "react-datepicker";
 import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css';
+import './App.css'
 
 const styles = theme => ({
   mainheaderContainer : {
@@ -17,7 +18,7 @@ const styles = theme => ({
       width: "20%",
       height: "100%" ,
       float : "left" ,
-      lineHeight : "4",
+      lineHeight : "3.5",
   },
   calendarText : {
       display: "inline-block",
@@ -41,7 +42,7 @@ const styles = theme => ({
       width: "30%",
       height: "80%",
       float :"left",
-      marginLeft : "20%",
+      marginLeft : "5%",
       lineHeight : "4",
   },
   weekDatePicker : {
@@ -51,7 +52,24 @@ const styles = theme => ({
       lineHeight : "1.5",
       color : "#615454",
       cursor : "pointer"
-  }
+  },
+ calendarWeekTransition : {
+      display: "inline-block",
+      width: "5%",
+      height: "100%",
+      float :"left",
+      lineHeight : "3.5",
+  },
+ calendarPreviousWeek : {
+      width: "50%",
+      height: "100%",
+      float :"left",
+ },
+ calendarNextWeek: {
+      width: "50%",
+      height: "100%",
+      float :"left",
+ }
 });
 
 class CalendarHeader extends Component {
@@ -63,9 +81,6 @@ class CalendarHeader extends Component {
     }
     
     handleweekdateChange = (date) => {
-        this.setState({
-            changedweekDate: date
-        });
         this.changeWeekDate(date)
     }
     
@@ -73,10 +88,18 @@ class CalendarHeader extends Component {
         this.props.onchange(date);
     }
     
-    formatMonth = (locale, date) => {
-        moment(date).format("MMMM YYYY")
+    setPreviousWeek = () => {
+        let date = moment(this.props.weekDate, "DD.MM.YYYY");
+        date.subtract(7, 'days');
+        this.changeWeekDate(date._d)
     }
-        
+    
+    setNextWeek = () => {
+        let date = moment(this.props.weekDate, "DD.MM.YYYY");
+        date.add(7, 'days');
+        this.changeWeekDate(date._d)
+    }
+    
     render() {
     const { classes } = this.props;
     return (
@@ -87,8 +110,16 @@ class CalendarHeader extends Component {
                 </div>
                 <span className = {classes.calendarText}> Calendar </span>
             </div> 
-            <div className = {classes.calendarWeek}>
-                <DatePicker className = {classes.weekDatePicker} dateFormat="MMMM YYYY" selected={this.state.changedweekDate} onChange={this.handleweekdateChange} />
+            <div className = {classes.calendarWeekTransition}>
+                <div className={classes.calendarPreviousWeek} title = "Previous Week" onClick= {this.setPreviousWeek}>
+                    <i className="fa fa-chevron-left" aria-hidden="true"></i>
+                </div>
+                <div className={classes.calendarNextWeek} title = "Next Week" onClick= {this.setNextWeek}>
+                    <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>        
+            </div>
+            <div className = {classes.calendarWeek} id= "headerCalendarWeek">
+                <DatePicker className = {classes.weekDatePicker} dateFormat="MMMM YYYY" selected={this.props.weekDate} onChange={this.handleweekdateChange} />
             </div>
       </div>
     );

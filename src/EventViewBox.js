@@ -6,7 +6,7 @@ import TimePicker from 'rc-time-picker';
 import moment from 'moment'
 import 'rc-time-picker/assets/index.css';
 import ReactDOM from 'react-dom';
-import './App.css';
+import './datetime.css';
 import EventBox from './EventBox'
 
 const styles = theme => ({
@@ -19,7 +19,7 @@ const styles = theme => ({
       display: "inline-block",
       width: "95%",
       height: "15%",
-      lineHeight : "1.5"
+      lineHeight : "2"
   },
   OuterEventTextConatiner : {
       display: "inline-block",
@@ -29,26 +29,27 @@ const styles = theme => ({
   },
   CloseAction : {
       display: "inline-block",
-      width: "5%",
+      width: "6%",
       height: "100%",
       float : "right",
       cursor : "pointer",
       fontFamily : "sans-serif",
       fontSize : "16px",
+      marginRight : "1%",
   },
   DeleteAction : {
       display: "inline-block",
-      width: "5%",
+      width: "6%",
       height: "100%",
       float : "right",
-      cursor : "pointer"
+      cursor : "pointer",
   },
   EditAction : {
       display: "inline-block",
-      width: "5%",
+      width: "7%",
       height: "100%",
       float : "right",
-      cursor : "pointer"
+      cursor : "pointer",
   },
   EventInputConatiner : {
       width: "90%",
@@ -121,11 +122,13 @@ class EventViewBox extends Component {
     return (
         <div className = {classes.OuterEventConatiner} >
                <div className = {classes.OuterEventAction}>
-                    <div className = {classes.CloseAction} onClick = {this.closeEvent}> X </div>
-                    <div className = {classes.DeleteAction} onClick = {this.eventDelete}> 
+                    <div className = {classes.CloseAction} onClick = {this.closeEvent} title = "Close"> 
+                        <i className="fa fa-close" ></i>
+                    </div>
+                    <div className = {classes.DeleteAction} onClick = {this.eventDelete} title = "Delete"> 
                         <i className="fa fa-trash" aria-hidden="true"></i>
                     </div>
-                    <div className = {classes.EditAction} onClick = {this.eventEdit}> 
+                    <div className = {classes.EditAction} onClick = {this.eventEdit} title = "Edit"> 
                         <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </div>
                 </div>

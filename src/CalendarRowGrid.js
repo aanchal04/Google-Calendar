@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import EventBox from './EventBox';
 import ReactDOM from 'react-dom';
+import moment from 'moment'
 
 const styles = theme => ({
   rowgridcell : {
@@ -76,7 +77,7 @@ class CalendarRowGrid extends Component {
   
   generateEventBox = () => {
       let container = document.getElementById('EventGridBox');      
-      ReactDOM.render(<EventBox isEdit = {0} keyid = {0} editEvent = {this.props.eventupdate} deleteEvent = {this.props.eventdelete} Events = {this.props.events}/>, container);
+      ReactDOM.render(<EventBox weekdateChange = {this.props.weekdateChange} isEdit = {0} keyid = {0} editEvent = {this.props.eventupdate} deleteEvent = {this.props.eventdelete} Events = {this.props.events}/>, container);
   }
 
   generatetimerow = () =>{
@@ -142,10 +143,10 @@ class CalendarRowGrid extends Component {
             if(i === 0)
                 {
                     table.push(<div className = {classes.MainDateContainer}>
-                                    <div className = {classes.DayContainer}>
+                                    <div className = {classes.DayContainer} id = "gridheaderDayContainer">
                                         {this.props.currday}
                                         </div>
-                                    <div className = {classes.DateContainer}>
+                                    <div className = {classes.DateContainer} id = "gridheaderDateContainer">
                                         {this.props.currdate}
                                     </div>
                                 </div>)
@@ -161,7 +162,7 @@ class CalendarRowGrid extends Component {
     
     return table;
    }
-    
+       
     render() {
     const { classes } = this.props;
     return (

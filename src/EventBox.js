@@ -6,8 +6,9 @@ import TimePicker from 'rc-time-picker';
 import moment from 'moment'
 import 'rc-time-picker/assets/index.css';
 import ReactDOM from 'react-dom';
-import './App.css';
+import './datetime.css';
 import EventViewBox from './EventViewBox'
+import EventHolder from './EventHolder'
 
 const styles = theme => ({
   OuterEventConatiner : {
@@ -18,7 +19,7 @@ const styles = theme => ({
   OuterEventAction : {
       display: "inline-block",
       width: "100%",
-      height: "10%",
+      height: "11%",
   },
   OuterEventTextConatiner : {
       display: "inline-block",
@@ -33,6 +34,8 @@ const styles = theme => ({
       cursor : "pointer",
       fontFamily : "sans-serif",
       fontSize : "18px",
+      marginRight : "1%",
+      lineHeight : "1.5"
   },
   EventInputConatiner : {
       width: "85%",
@@ -105,8 +108,9 @@ const styles = theme => ({
       float : "left",
       width : "25%",
       fontFamily : "sans-serif",
-      fontSize : "16px",
-      lineHeight : "1.5"
+      fontSize : "15px",
+      lineHeight : "2",
+      textAlign : "left"
   }
 });
 
@@ -125,8 +129,10 @@ class EventBox extends Component {
   
   handlestartdateChange = (date) => {
     this.setState({
-      startDate: date
+      startDate: date,
+      endDate: date
     });
+    this.props.weekdateChange(date) 
   }
   
   handleenddateChange = (date) => {
@@ -150,6 +156,10 @@ class EventBox extends Component {
   saveEvent = () => {
       const { classes } = this.props;
       let Title = this._newText.value;
+      if(Title === "")
+      {
+          Title = "No Title"
+      }
       let EventDetails = {
           Title: Title,
           startDate : this.state.startDate,
@@ -171,22 +181,34 @@ class EventBox extends Component {
       {
         this.props.deleteEvent(this.props.keyid)
       }
- 
+      let diff = 1;
+      let start = moment(EventDetails.startDate, "DD.MM.YYYY");
+      let end = moment(EventDetails.endDate, "DD.MM.YYYY");
+      let result = end.diff(start, 'days');
+      if(result < 0)
+      {
+          diff = result;
+      }
+      else
+      {
+          diff = result;
+      }
+      
       let width = gridstartCell.offsetWidth;
       let height = gridstartCell.offsetHeight;
       if((endhour - starthour ) > 1 )
       {
-          height = height +  gridendCell.offsetHeight;
+          height = height +  (endhour - starthour - 1) * gridendCell.offsetHeight;
       }
-      if(endkey != key)
+      
+      if(endkey !== key)
       {
-          width = width +  gridendCell.offsetWidth;
+         width = width +  (diff + 1) * gridendCell.offsetWidth; 
       }
-      ReactDOM.render(<div className = "EventHolder" onClick = {this.eventClick} id = {eventid} > {Title} </div>, gridstartCell);
- 
-      let eventCell = gridstartCell.querySelectorAll(".EventHolder")[0];
-      eventCell.style.height = height + "px";
-      eventCell.style.width = width + "px";
+      let divheight = height + "px";
+      let divwidth = width + "px";
+      ReactDOM.render(<EventHolder eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events} height = {divheight} width = {divwidth}/>, gridstartCell);
+      gridstartCell.classList.add("eventHolderGridContainer");
       this.props.editEvent(eventid ,EventDetails)
       ReactDOM.unmountComponentAtNode(Container);
       Container.style.display = "none";
@@ -222,25 +244,18 @@ class EventBox extends Component {
           }
       
   }
-  
-  eventClick = (e) => {
-      let Key = e.target.id;
-      let EventData = this.props.Events[Key];
-      let eventStartDate = EventData.startDate;
-      let container = document.getElementById('EventGridBox');  
-      container.style.display = "block";
-      ReactDOM.render(<EventViewBox keyid = {Key} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
-  }
-    
+      
   render() {
     const { classes } = this.props;
     return (
         <div className = {classes.OuterEventConatiner} >
                <div className = {classes.OuterEventAction}>
-                    <div className = {classes.CloseAction} onClick = {this.closeEvent}> X </div>
+                    <div className = {classes.CloseAction} onClick = {this.closeEvent} title = "Close"> 
+                        <i className="fa fa-close" ></i>
+                    </div>
                 </div>
                <div className = {classes.OuterEventTextConatiner}>
-                    <input type= "text" ref={input => this._newText = input} id = "EventInput" className = {classes.EventInputConatiner}/>
+                    <input type= "text" ref={input => this._newText = input} id = "EventInput" className = {classes.EventInputConatiner} placeholder = "Add Title" />
                </div>
                <div className = {classes.OuterEventDateTimeConatiner}>
                         <div className = {classes.OuterEventStartDateConatiner}>

@@ -28,8 +28,8 @@ class CalendarBody extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <div className={classes.mainbodyContainer}>
-            <CalendarGrid weekDate = {this.props.weekDate}/>
+        <div className={classes.mainbodyContainer} id = "calendarMainGrid">
+            <CalendarGrid weekdateChange = {this.props.weekdateChange} weekDate = {this.props.weekDate}/>
         </div>
         <div className={classes.maineventContainer} id = "EventGridBox">
         </div>

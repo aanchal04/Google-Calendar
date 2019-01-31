@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
-import './App.css';
 import CalendarHeader from './CalendarHeader';
 import CalendarBody from './CalendarBody';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+  app : {
+      display: "inline-block",
+      width: "100%",
+      height: "100%",
+      textAlign : "center"
+  }
+});
 
 class App extends Component {
     constructor(props) {
@@ -16,15 +25,15 @@ class App extends Component {
                 weekDate: date
             });
     }
-    
     render() {
+    const { classes } = this.props;
     return (
-      <div className="App">
-            <CalendarHeader onchange = {this.weekdateChange} />
-            <CalendarBody weekDate = {this.state.weekDate}/>
+      <div className={classes.app}>
+            <CalendarHeader weekDate = {this.state.weekDate} onchange = {this.weekdateChange} />
+            <CalendarBody weekdateChange = {this.weekdateChange} weekDate = {this.state.weekDate}/>
       </div>
     );
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
