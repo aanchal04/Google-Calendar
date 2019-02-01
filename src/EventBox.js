@@ -231,9 +231,9 @@ class EventBox extends Component {
                 i++;
             }
           }
-          let start = moment(EventDetails.startDate, "DD.MM.YYYY");
-          let end = moment(EventDetails.endDate, "DD.MM.YYYY");
-          let result = end.diff(start, 'days');
+          let start = moment(this.state.startDate, "DD");
+          let endd = moment(this.state.endDate, "DD");
+          let result = endd.diff(start, 'days')
 
           let width = gridstartCell.clientWidth;
           let height = gridstartCell.clientHeight;
@@ -257,11 +257,6 @@ class EventBox extends Component {
           if(endkey !== key)
           {
              width = width +  (result) * gridendCell.clientWidth; 
-          }
-          
-          if(smonth !== emonth)
-          {
-              width = width +  gridendCell.clientWidth 
           }
           
           let divheight = height + "px";

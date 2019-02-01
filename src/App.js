@@ -25,6 +25,16 @@ class App extends Component {
                 weekDate: date
             });
     }
+    
+    componentWillMount()
+    {
+        let element = document.getElementById("root")
+        let height = window.innerHeight - 3
+        let width = window.innerWidth 
+        element.style.height = height
+        element.style.width = width
+    }
+    
     render() {
     const { classes } = this.props;
     return (
