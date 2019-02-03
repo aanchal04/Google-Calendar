@@ -31,8 +31,8 @@ class App extends Component {
         let element = document.getElementById("root")
         let height = window.innerHeight - 3
         let width = window.innerWidth 
-        element.style.height = height
-        element.style.width = width
+        element.style.height = height +"px"
+        element.style.width = width + "px"
     }
     
     render() {
