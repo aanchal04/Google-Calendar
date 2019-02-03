@@ -139,7 +139,7 @@ class CalendarGrid extends Component {
                 }
                 let divheight = height + "px";
                 let divwidth = width + "px";
-                ReactDOM.render(<EventHolder eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.editEventState} deleteEvent = {this.deleteEventState} Events = {this.state.Events} height = {divheight} width = {divwidth}/>, gridstartCell);        
+                ReactDOM.render(<EventHolder weekdateChange = {this.props.weekdateChange} eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.editEventState} deleteEvent = {this.deleteEventState} Events = {this.state.Events} height = {divheight} width = {divwidth}/>, gridstartCell);        
                  
             }
         }

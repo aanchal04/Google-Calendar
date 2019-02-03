@@ -219,6 +219,7 @@ class EventBox extends Component {
             let i =0,j=0;
             while(i< gridContainerelements.length)
             {
+                j = 0;
                 let childelements = gridContainerelements[i].children
                  while(j < childelements.length)
                 {
