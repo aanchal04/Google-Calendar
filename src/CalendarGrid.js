@@ -113,14 +113,14 @@ class CalendarGrid extends Component {
                 let start = moment(EventDetails.startDate, "DD.MM.YYYY");
                 let end = moment(EventDetails.endDate, "DD.MM.YYYY");
                 let result = end.diff(start, 'days');
-                if(result < 0)
-                {
-                    diff = result;
-                }
-                else
-                {
-                  diff = result;
-                } 
+                const a = new Date(EventDetails.startDate),
+                b = new Date(EventDetails.endDate)  
+
+                const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+                const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+                const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+                result = Math.floor((utc2 - utc1) / _MS_PER_DAY);
                 
                let width = gridstartCell.clientWidth;
                let height = gridstartCell.clientHeight;
@@ -131,7 +131,7 @@ class CalendarGrid extends Component {
 
                if(endkey !== sdate)
                {
-                 width = width +  (diff) * gridendCell.clientWidth; 
+                 width = width +  (result) * gridendCell.clientWidth;
                }
                if(smonth !== emonth)
                 {
