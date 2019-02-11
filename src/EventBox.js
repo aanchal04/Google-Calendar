@@ -121,8 +121,8 @@ class EventBox extends Component {
         this.state = {
             startDate : this.props.selectedDate,
             endDate :this.props.selectedDate,
-            startTime : moment().hour(0).minute(0),
-            EndTime : moment().hour(1).minute(0),            
+            startTime : moment().hour(this.props.selectedTime).minute(0),
+            EndTime : moment().hour(this.props.selectedTime).minute(0).add(1, 'hours'),            
             format : 'h:mm a',
         }
     }
@@ -270,7 +270,7 @@ class EventBox extends Component {
           
           let divheight = height + "px";
           let divwidth = width + "px";
-          ReactDOM.render(<EventHolder weekdateChange = {this.props.weekdateChange} eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events} height = {divheight} width = {divwidth}/>, gridstartCell);
+         // ReactDOM.render(<EventHolder weekdateChange = {this.props.weekdateChange} eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events} height = {divheight} width = {divwidth}/>, gridstartCell);
           gridstartCell.classList.add("eventHolderGridContainer");
           this.props.editEvent(eventid ,EventDetails)
           ReactDOM.unmountComponentAtNode(Container);

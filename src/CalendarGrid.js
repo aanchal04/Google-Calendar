@@ -47,10 +47,32 @@ class CalendarGrid extends Component {
       delete this.state.Events[key]
       let gridstart = document.getElementById('horizontalRow_' + startdate).querySelectorAll('#VerticalRow_' + starthour)[0];
       ReactDOM.unmountComponentAtNode(gridstart);
+      //this.deleteEvent(key);
     } 
+
+    deleteEvent = (key) => {
+      let Event = Object.assign({},this.state.Events)
+      delete Event[key]
+      if(Object.keys(Event).length == 0)
+      {
+          this.setState({
+            Events:{}
+          })
+      }
+      else{
+           this.setState({
+            Events:Event 
+          })
+      }
+    }
     
     editEventState = (key , EventData) =>{
-       this.state.Events[key] = EventData;
+       //this.state.Events[key] = EventData;
+       let Events = Object.assign({},this.state.Events)
+       Events[key] = EventData
+       this.setState({
+          Events:Events 
+       }) 
     } 
     
     
@@ -72,14 +94,14 @@ class CalendarGrid extends Component {
     let j = 0
     let divtimeid = "horizontalTimeRow" + j;
     table.push(<div className = {classes.mainrowtimegridContainer} id = {divtimeid} >
-                        <CalendarRowGrid weekdateChange = {this.props.weekdateChange} selectedDate = {this.props.weekDate} events = {this.state.Events} eventupdate = {this.editEventState} eventdelete = {this.deleteEventState} horizontalLine = {j-1} verticallines= {this.state.verticalgridlines} currdate = {moment(days[j]).format('ddd')} currday = {moment(days[j]).format('DD')}/>
+                        <CalendarRowGrid weekdateChange = {this.props.weekdateChange} selectedDate = {this.props.weekDate} events = {this.state.Events} eventupdate = {this.editEventState} eventdelete = {this.deleteEventState} horizontalLine = {j-1} verticallines= {this.state.verticalgridlines} date = {moment(days[j])._d} currdate = {moment(days[j]).format('ddd')} currday = {moment(days[j]).format('DD')}/>
                 </div>);
         
         for (let i = 0; i < this.state.horizontalgridlines; i++) 
         {
             let divid = "horizontalRow_" + moment(days[j]).format('DD');
             table.push(<div className = {classes.mainrowgridContainer} id = {divid} >
-                            <CalendarRowGrid weekdateChange = {this.weekdateChange} selectedDate = {this.props.weekDate} events = {this.state.Events} eventupdate = {this.editEventState} eventdelete = {this.deleteEventState} horizontalLine = {i} verticallines= {this.state.verticalgridlines} currdate ={moment(days[j]).format('DD')} currday = {moment(days[j]).format('ddd')} />
+                            <CalendarRowGrid weekdateChange = {this.props.weekdateChange} selectedDate = {this.props.weekDate} events = {this.state.Events} eventupdate = {this.editEventState} eventdelete = {this.deleteEventState} horizontalLine = {i} verticallines= {this.state.verticalgridlines} date = {moment(days[j])._d} currdate ={moment(days[j]).format('DD')} currday = {moment(days[j]).format('ddd')} />
                         </div>);
             j = j + 1;
         }
@@ -90,10 +112,14 @@ class CalendarGrid extends Component {
     editEventComponents = (startOfWeek , endOfWeek) => 
     {
         let gridContainerelements = document.getElementsByClassName('eventHolderGridContainer');
-        for(let i = 0 ; i < gridContainerelements.length ; i++)
-        {
-            ReactDOM.unmountComponentAtNode(gridContainerelements[i])        
-        }
+        let i =0,j=0;
+        while(i< gridContainerelements.length)
+          {
+
+            ReactDOM.unmountComponentAtNode(gridContainerelements[i]) 
+            let childelements = gridContainerelements[i].children
+            i++;
+          }
         for(let key in this.state.Events)
         {
             let EventDetails = this.state.Events[key];
@@ -140,7 +166,7 @@ class CalendarGrid extends Component {
                 let divheight = height + "px";
                 let divwidth = width + "px";
                 ReactDOM.render(<EventHolder weekdateChange = {this.props.weekdateChange} eventid = {eventid} Title = {EventDetails.Title} editEvent = {this.editEventState} deleteEvent = {this.deleteEventState} Events = {this.state.Events} height = {divheight} width = {divwidth}/>, gridstartCell);        
-                 
+                gridstartCell.classList.add("eventHolderGridContainer");
             }
         }
     }
@@ -177,7 +203,7 @@ class CalendarGrid extends Component {
             }
         }
         
-        this.editEventComponents(startOfWeek , endOfWeek)
+      this.editEventComponents(startOfWeek , endOfWeek)
     }
     
     componentDidMount()

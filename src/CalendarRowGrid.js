@@ -71,14 +71,41 @@ const styles = theme => ({
 class CalendarRowGrid extends Component {
   
   addEvent = (e) => {
-      document.getElementById('EventGridBox').style.display = "block";
-      this.generateEventBox()
+      let element = document.getElementById('EventGridBox');
+      if(element.style.display == "block")
+      {
+        //do nothing
+      }
+      else
+      {
+        element.style.display = "block";
+        this.generateEventBox()
+      }       
   }  
   
   generateEventBox = () => {
       let container = document.getElementById('EventGridBox');      
-      ReactDOM.render(<EventBox selectedDate = {this.props.selectedDate} weekdateChange = {this.props.weekdateChange} isEdit = {0} keyid = {0} editEvent = {this.props.eventupdate} deleteEvent = {this.props.eventdelete} Events = {this.props.events}/>, container);
+      ReactDOM.render(<EventBox selectedTime = {0} selectedDate = {this.props.selectedDate} weekdateChange = {this.props.weekdateChange} isEdit = {0} keyid = {0} editEvent = {this.props.eventupdate} deleteEvent = {this.props.eventdelete} Events = {this.props.events}/>, container);
   }
+
+  generateEventGridBox = (Time) => {
+      let container = document.getElementById('EventGridBox');      
+      ReactDOM.render(<EventBox selectedTime = {Time} selectedDate = {this.props.date} weekdateChange = {this.props.weekdateChange} isEdit = {0} keyid = {0} editEvent = {this.props.eventupdate} deleteEvent = {this.props.eventdelete} Events = {this.props.events}/>, container);
+  }
+
+  openEventBox = (e) =>{
+      let Time = e.target.id.split("_")[1];
+      let element = document.getElementById('EventGridBox');
+      if(element.style.display == "block")
+      {
+
+      }
+      else
+      {
+        element.style.display = "block";
+        this.generateEventGridBox(Time)
+      }
+}
 
   generatetimerow = () =>{
     const { classes } = this.props;
@@ -131,14 +158,15 @@ class CalendarRowGrid extends Component {
     return table;                     
    }
     
-    
+
   generaterow = () =>{
     const { classes } = this.props;
     let table = [];
     
     if(this.props.horizontalLine >= 0)
     {
-        for (let i = 0; i < this.props.verticallines; i++) {
+        for (let i = 0; i < this.props.verticallines; i++) 
+        {
             let divid = "VerticalRow_" + i;
             if(i === 0)
                 {
@@ -151,8 +179,8 @@ class CalendarRowGrid extends Component {
                                     </div>
                                 </div>)
                 }
-            table.push(<div className = {classes.rowgridcell} id = {divid}>
-                            </div>);
+            table.push(<div className = {classes.rowgridcell} id = {divid} onClick = {this.openEventBox} >
+                       </div>);
         }
     }
     else
@@ -162,7 +190,7 @@ class CalendarRowGrid extends Component {
     
     return table;
    }
-       
+            
     render() {
     const { classes } = this.props;
     return (

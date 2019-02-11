@@ -109,12 +109,30 @@ class EventViewBox extends Component {
   
   eventDelete = () => {
       this.props.deleteEvent(this.props.keyid)
+      let gridContainerelements = document.getElementsByClassName('eventHolderGridContainer');
+      let i =0,j=0;
+      while(i< gridContainerelements.length)
+        {
+            j = 0;
+            let childelements = gridContainerelements[i].children
+            while(j < childelements.length)
+            {
+                if(childelements[j].id === this.props.keyid)
+                {
+                    childelements[j].remove()   
+                }
+                j++;
+            }
+            i++;
+        }
+      //$(node).remove();
   }
   
   eventEdit = () => {
+      let time = this.props.keyid.split("_")[1]
       let container = document.getElementById('EventGridBox'); 
       ReactDOM.unmountComponentAtNode(container);
-      ReactDOM.render(<EventBox weekdateChange = {this.props.weekdateChange} isEdit = {1} keyid = {this.props.keyid} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
+      ReactDOM.render(<EventBox selectedTime = {time} weekdateChange = {this.props.weekdateChange} isEdit = {1} keyid = {this.props.keyid} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
   }
 
   render() {

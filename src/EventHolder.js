@@ -24,6 +24,9 @@ class EventHolder extends Component {
         }
     }    
     eventClick = (e) => {
+          e.preventDefault()
+          e.stopPropagation();
+          e.nativeEvent.stopImmediatePropagation();
           let Key = e.target.id;
           let EventData = this.props.Events[Key];
           let eventStartDate = EventData.startDate;
