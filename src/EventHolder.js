@@ -30,9 +30,10 @@ class EventHolder extends Component {
           let Key = e.target.id;
           let EventData = this.props.Events[Key];
           let eventStartDate = EventData.startDate;
-          let container = document.getElementById('EventGridBox');  
+          let container = document.getElementById('EventGridOuterBox');  
           container.style.display = "block";
-          ReactDOM.render(<EventViewBox weekdateChange = {this.props.weekdateChange} keyid = {Key} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, container);
+          let eventcontainer = document.getElementById('EventGridBox');  
+          ReactDOM.render(<EventViewBox weekdateChange = {this.props.weekdateChange} keyid = {Key} editEvent = {this.props.editEvent} deleteEvent = {this.props.deleteEvent} Events = {this.props.Events}/>, eventcontainer);
     }
                           
     render() {

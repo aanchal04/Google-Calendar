@@ -43,7 +43,8 @@ class CalendarGrid extends Component {
       let starthour = EventData.startTime.format("H")
       let Container = document.getElementById('EventGridBox')
       ReactDOM.unmountComponentAtNode(Container);
-      Container.style.display = "none";
+      let eventContainer = document.getElementById('EventGridOuterBox')
+      eventContainer.style.display = "none";
       delete this.state.Events[key]
       let gridstart = document.getElementById('horizontalRow_' + startdate).querySelectorAll('#VerticalRow_' + starthour)[0];
       ReactDOM.unmountComponentAtNode(gridstart);

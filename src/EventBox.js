@@ -274,14 +274,17 @@ class EventBox extends Component {
           gridstartCell.classList.add("eventHolderGridContainer");
           this.props.editEvent(eventid ,EventDetails)
           ReactDOM.unmountComponentAtNode(Container);
-          Container.style.display = "none";
+          let OuterContainer = document.getElementById('EventGridOuterBox')
+          OuterContainer.style.display = "none";
       }
   }
   
   closeEvent = () => {
-      let Container = document.getElementById('EventGridBox')
-      ReactDOM.unmountComponentAtNode(Container);
+      let Container = document.getElementById('EventGridOuterBox')
       Container.style.display = "none";
+      let eventContainer = document.getElementById('EventGridBox')
+      ReactDOM.unmountComponentAtNode(eventContainer);
+      
   }
   
   componentDidMount()

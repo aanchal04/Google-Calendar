@@ -9,7 +9,7 @@ const styles = theme => ({
       height: "90%"
   },
   maineventContainer : {
-      display: "none",
+      display: "inline-block",
       width: "450px",
       height: "200px",
       position : "absolute",
@@ -19,7 +19,18 @@ const styles = theme => ({
       left: "250px",
       boxShadow : "0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2)",
       borderRadius : "20px"
-  }
+  },
+maineventOuterContainer : {
+      display: "none",
+      width: "100%",
+      height: "100%",
+      position : "absolute",
+      zIndex : 1,
+      backgroundColor : "#80808026",
+      top: "0px",
+      left: "0px",
+
+}
 });
 
 
@@ -31,7 +42,9 @@ class CalendarBody extends Component {
         <div className={classes.mainbodyContainer} id = "calendarMainGrid">
             <CalendarGrid weekdateChange = {this.props.weekdateChange} weekDate = {this.props.weekDate}/>
         </div>
-        <div className={classes.maineventContainer} id = "EventGridBox">
+        <div className={classes.maineventOuterContainer} id = "EventGridOuterBox">
+          <div className={classes.maineventContainer} id = "EventGridBox">
+          </div>
         </div>
       </React.Fragment>
     );

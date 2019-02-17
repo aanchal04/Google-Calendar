@@ -71,7 +71,7 @@ const styles = theme => ({
 class CalendarRowGrid extends Component {
   
   addEvent = (e) => {
-      let element = document.getElementById('EventGridBox');
+      let element = document.getElementById('EventGridOuterBox');
       if(element.style.display == "block")
       {
         //do nothing
@@ -95,7 +95,7 @@ class CalendarRowGrid extends Component {
 
   openEventBox = (e) =>{
       let Time = e.target.id.split("_")[1];
-      let element = document.getElementById('EventGridBox');
+      let element = document.getElementById('EventGridOuterBox');
       if(element.style.display == "block")
       {
 

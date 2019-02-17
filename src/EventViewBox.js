@@ -102,9 +102,11 @@ class EventViewBox extends Component {
     }
   
   closeEvent = () => {
-      let Container = document.getElementById('EventGridBox')
-      ReactDOM.unmountComponentAtNode(Container);
+      let Container = document.getElementById('EventGridOuterBox')
       Container.style.display = "none";
+      let eventContainer = document.getElementById('EventGridBox')
+      ReactDOM.unmountComponentAtNode(eventContainer);
+      
   }
   
   eventDelete = () => {
